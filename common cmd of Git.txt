@@ -81,7 +81,128 @@ $ ssh-keygen -t rsa -C "youremail@example.com"
 $ git remote add origin git@github.com:*********/learngit.git
 
 3.下一步，就可以把本地库的所有内容推送到远程库上：
-$ git push -u origin master
+$ git push -u origin master   (第一次推送时，加 -u)
+$ git push origin master   （以后直接用这个命令即可）
+
+要关联一个远程库，使用命令git remote add origin git@server-name:path/repo-name.git；
+
+关联后，使用命令git push -u origin master第一次推送master分支的所有内容；
+
+此后，每次本地提交后，只要有必要，就可以使用命令git push origin master推送最新修改；
+
+3. 从远程库克隆
+要克隆一个仓库，首先必须知道仓库的地址，然后使用git clone命令克隆。
+$ git clone git@github.com:michaelliao/gitskills.git
+Git支持多种协议，包括https，但通过ssh支持的原生git协议速度最快。
+
+//////////////////////////////////////////////////////////////////////////////
+四、分支管理
+在Git里，这个分支叫主分支，即master分支。HEAD严格来说不是指向提交，而是指向master，master才是指向提交的，所以，HEAD指向的就是当前分支。
+首先，我们创建dev分支，然后切换到dev分支：
+$ git checkout -b dev
+git checkout命令加上-b参数表示创建并切换，相当于以下两条命令：($ git branch dev,$ git checkout dev)
+然后，用git branch命令查看当前分支：
+$ git branch
+* dev
+  master
+如下，为copy的代码，可进行查看：
+Administrator@HFJS-1600ww MINGW64 ~/gitskills (master)
+$ pwd        #显示当先文件夹
+/c/Users/Administrator/gitskills
+
+Administrator@HFJS-1600ww MINGW64 ~/gitskills (master)
+$ git branch       #显示当前分支，只有master
+* master
+
+Administrator@HFJS-1600ww MINGW64 ~/gitskills (master)
+$ git checkout -b dev      #新建分支dev，并指向该分支
+Switched to a new branch 'dev'
+
+Administrator@HFJS-1600ww MINGW64 ~/gitskills (dev)
+$ git branch      # 显示当前分支有两个，当前在dev分支上用*标注
+* dev
+  master
+
+Administrator@HFJS-1600ww MINGW64 ~/gitskills (dev)
+$ git add read.txt      #在分支上添加文件
+
+Administrator@HFJS-1600ww MINGW64 ~/gitskills (dev)
+$ git commit -m "branch test"     #对添加文件进行标注
+[dev 2849e2b] branch test
+ 1 file changed, 1 insertion(+)
+ create mode 100644 read.txt
+
+Administrator@HFJS-1600ww MINGW64 ~/gitskills (dev)
+$ git checkout master            #转到master分支
+Switched to branch 'master'
+Your branch is up-to-date with 'origin/master'.
+
+Administrator@HFJS-1600ww MINGW64 ~/gitskills (master)
+$ ls -a           #查看当前master分支下的文件列表
+./  ../  .git/  README.md
+
+Administrator@HFJS-1600ww MINGW64 ~/gitskills (master)
+$ git checkout dev     # 转到dev分支
+Switched to branch 'dev'
+
+Administrator@HFJS-1600ww MINGW64 ~/gitskills (dev)
+$ ls -a             #查看dev分支下的文件列表中有新添加的文件
+./  ../  .git/  read.txt  README.md
+
+Administrator@HFJS-1600ww MINGW64 ~/gitskills (dev)
+$ git checkout master      #转到master分支   
+Switched to branch 'master'
+Your branch is up-to-date with 'origin/master'.
+
+Administrator@HFJS-1600ww MINGW64 ~/gitskills (master)
+$ git merge dev      #把dev分支的工作成果合并到master分支
+Updating 90113cd..2849e2b
+Fast-forward
+ read.txt | 1 +
+ 1 file changed, 1 insertion(+)
+ create mode 100644 read.txt
+
+Administrator@HFJS-1600ww MINGW64 ~/gitskills (master)
+$ ls -a            #合并之后查看master分支的文件列表
+./  ../  .git/  read.txt  README.md
+
+Administrator@HFJS-1600ww MINGW64 ~/gitskills (master)
+$ cat read.txt            #查看文件详细内容
+Creating a new branch is quick!
+Administrator@HFJS-1600ww MINGW64 ~/gitskills (master)
+$ git branch -d dev        #在主分支上删除dev分支
+Deleted branch dev (was 2849e2b).
+
+Administrator@HFJS-1600ww MINGW64 ~/gitskills (master)
+$ git branch        #显示分支，只有master了
+* master
+
+|||||||||||||||||||||||||||||||||||||
+总结：
+Git鼓励大量使用分支：
+
+查看分支：git branch
+
+创建分支：git branch <name>
+
+切换分支：git checkout <name>
+
+创建+切换分支：git checkout -b <name>
+
+合并某分支到当前分支：git merge <name>
+
+删除分支：git branch -d <name>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
